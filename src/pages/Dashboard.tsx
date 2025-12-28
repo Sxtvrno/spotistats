@@ -315,6 +315,9 @@ export default function Dashboard() {
             Conecta tu cuenta y obtén un snapshot de tu perfil, artistas y
             canciones más escuchadas.
           </p>
+          <p className="text-[#8fe1b0] text-2xl font-bold mb-4">
+            NUEVO!! Crea playlists personalizadas con IA
+          </p>
           <div className="flex gap-3 flex-wrap mb-3">
             {!isAuthenticated ? (
               <button
