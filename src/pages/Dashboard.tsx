@@ -266,12 +266,18 @@ export default function Dashboard() {
 
       const uris: string[] = [];
       for (const q of plan.queries) {
+        // búsqueda principal
         const uri = await searchFirstTrackUri(accessToken, q);
         if (uri) uris.push(uri);
-        if (uris.length >= 25) break;
+
+        // corta a un máximo razonable para evitar rate limits
+        if (uris.length >= 50) break;
       }
-      if (uris.length === 0) {
-        throw new Error("No se encontraron canciones para el prompt.");
+      // Enforce mínimo de 20 canciones
+      if (uris.length < 20) {
+        throw new Error(
+          `Se necesitan al menos 20 canciones; se encontraron ${uris.length}. Prueba con un prompt más específico o diverso.`
+        );
       }
 
       setCreateMsg("Creando playlist…");

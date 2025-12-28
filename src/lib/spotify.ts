@@ -210,11 +210,7 @@ export const createPlaylist = async (
     external_urls: { spotify: string };
   }>(token, `users/${userId}/playlists`, {
     method: "POST",
-    body: JSON.stringify({
-      name,
-      description,
-      public: isPublic,
-    }),
+    body: JSON.stringify({ name, description, public: isPublic }),
   });
   return { id: playlist.id, externalUrl: playlist.external_urls.spotify };
 };
