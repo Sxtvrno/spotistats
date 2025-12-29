@@ -507,6 +507,51 @@ export default function Dashboard() {
             </p>
             <h2 className="text-lg m-0">Generar y guardar por prompt</h2>
           </div>
+
+          {/* Tip box */}
+          <div className="bg-[#8fe1b0]/10 border border-[#8fe1b0]/30 rounded-xl p-3 mb-3">
+            <p className="text-[#8fe1b0] font-bold text-xs mb-2 flex items-center gap-1">
+              <span className="text-sm">💡</span> Tips para mejores resultados:
+            </p>
+            <ul className="space-y-1.5 text-[11px] text-[#c8d6e8] leading-relaxed">
+              <li className="flex gap-2">
+                <span className="text-[#8fe1b0] mt-0.5">•</span>
+                <span>
+                  <strong className="text-[#8fe1b0]">Sé específico:</strong>{" "}
+                  "Rock progresivo de los 70" en lugar de solo "rock"
+                </span>
+              </li>
+              <li className="flex gap-2">
+                <span className="text-[#8fe1b0] mt-0.5">•</span>
+                <span>
+                  <strong className="text-[#8fe1b0]">Incluye contexto:</strong>{" "}
+                  "Para entrenar", "para trabajar concentrado"
+                </span>
+              </li>
+              <li className="flex gap-2">
+                <span className="text-[#8fe1b0] mt-0.5">•</span>
+                <span>
+                  <strong className="text-[#8fe1b0]">Menciona artistas:</strong>{" "}
+                  "Al estilo de Daft Punk y Justice"
+                </span>
+              </li>
+              <li className="flex gap-2">
+                <span className="text-[#8fe1b0] mt-0.5">•</span>
+                <span>
+                  <strong className="text-[#8fe1b0]">Define el mood:</strong>{" "}
+                  "Energética y motivadora" o "Relajante y atmosférica"
+                </span>
+              </li>
+              <li className="flex gap-2">
+                <span className="text-[#8fe1b0] mt-0.5">•</span>
+                <span>
+                  <strong className="text-[#8fe1b0]">Combina géneros:</strong>{" "}
+                  "Jazz fusion con toques electrónicos"
+                </span>
+              </li>
+            </ul>
+          </div>
+
           <div className="flex flex-col sm:flex-row gap-3">
             <input
               value={aiPrompt}
