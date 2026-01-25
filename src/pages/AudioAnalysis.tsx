@@ -124,10 +124,6 @@ export default function AudioAnalysis() {
           <span className="text-base md:text-lg">⚠️</span> Funcionalidad
           limitada
         </p>
-        <p className="text-amber-100/80 text-[11px] md:text-xs leading-relaxed">
-          El endpoint de Audio Features requiere Extended Quota Mode. Por ahora,
-          mostramos análisis basado en popularidad, géneros y artistas.
-        </p>
       </div>
 
       {loading && !stats ? (

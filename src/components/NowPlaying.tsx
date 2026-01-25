@@ -133,7 +133,7 @@ export default function NowPlaying() {
     return (
       <div className="fixed bottom-2 left-2 right-2 md:bottom-4 md:left-auto md:right-4 md:max-w-xs bg-white/5 border border-white/10 rounded-xl p-3 backdrop-blur-md z-50">
         <p className="text-[#9fb2c8] text-xs text-center md:text-left">
-          🎵 Sin reproducción activa
+          Sin reproducción activa
         </p>
       </div>
     );
@@ -169,8 +169,14 @@ export default function NowPlaying() {
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-lg">
-                      🎵
+                    <div className="w-full h-full flex items-center justify-center">
+                      <svg
+                        className="w-5 h-5 text-[#9fb2c8]"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
+                      </svg>
                     </div>
                   )}
                 </div>
@@ -184,9 +190,19 @@ export default function NowPlaying() {
                 </div>
                 <button
                   onClick={() => setIsMinimized(!isMinimized)}
-                  className="p-1 text-[#9fb2c8] hover:text-[#8fe1b0] transition"
+                  className="p-1.5 text-[#9fb2c8] hover:text-[#8fe1b0] transition"
                 >
-                  {isMinimized ? "▼" : "▲"}
+                  <svg
+                    className="w-3 h-3"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
                 </button>
               </div>
 
@@ -199,53 +215,130 @@ export default function NowPlaying() {
           )}
 
           {/* Controls */}
-          <div className="flex items-center justify-center gap-1">
+          <div className="flex items-center justify-center gap-1.5">
+            {/* Shuffle */}
             <button
               onClick={handleShuffle}
               disabled={loading}
-              className={`p-2 rounded-lg transition text-sm ${
+              className={`p-1.5 md:p-2 rounded-lg transition ${
                 playback.shuffle_state
                   ? "bg-[#8fe1b0]/20 text-[#8fe1b0]"
                   : "bg-white/5 text-[#9fb2c8]"
               } disabled:opacity-50`}
+              title="Shuffle"
             >
-              🔀
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"
+                />
+                <path d="M3 18h3.5L15 6h3M3 6h3.5L9 9" />
+              </svg>
             </button>
 
+            {/* Previous */}
             <button
               onClick={handlePrevious}
               disabled={loading}
-              className="p-2 rounded-lg bg-white/5 text-[#e8f2ff] active:scale-95 transition disabled:opacity-50"
+              className="p-1.5 md:p-2 rounded-lg bg-white/5 text-[#e8f2ff] active:scale-95 transition disabled:opacity-50"
+              title="Anterior"
             >
-              ⏮️
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z" />
+              </svg>
             </button>
 
+            {/* Play/Pause */}
             <button
               onClick={handlePlayPause}
               disabled={loading}
-              className="p-2.5 rounded-full bg-gradient-to-br from-[#2cd37d] to-[#18b663] text-white active:scale-95 transition shadow-[0_5px_20px_rgba(24,182,99,0.4)] disabled:opacity-50"
+              className="p-2.5 md:p-3 rounded-full bg-gradient-to-br from-[#2cd37d] to-[#18b663] text-white active:scale-95 transition shadow-[0_5px_20px_rgba(24,182,99,0.4)] disabled:opacity-50"
+              title={playback.is_playing ? "Pausar" : "Reproducir"}
             >
-              {playback.is_playing ? "⏸️" : "▶️"}
+              {playback.is_playing ? (
+                <svg
+                  className="w-5 h-5 md:w-6 md:h-6"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+                </svg>
+              ) : (
+                <svg
+                  className="w-5 h-5 md:w-6 md:h-6"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              )}
             </button>
 
+            {/* Next */}
             <button
               onClick={handleNext}
               disabled={loading}
-              className="p-2 rounded-lg bg-white/5 text-[#e8f2ff] active:scale-95 transition disabled:opacity-50"
+              className="p-1.5 md:p-2 rounded-lg bg-white/5 text-[#e8f2ff] active:scale-95 transition disabled:opacity-50"
+              title="Siguiente"
             >
-              ⏭️
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
+              </svg>
             </button>
 
+            {/* Repeat */}
             <button
               onClick={handleRepeat}
               disabled={loading}
-              className={`p-2 rounded-lg transition text-sm ${
+              className={`p-1.5 md:p-2 rounded-lg transition ${
                 playback.repeat_state !== "off"
                   ? "bg-[#8fe1b0]/20 text-[#8fe1b0]"
                   : "bg-white/5 text-[#9fb2c8]"
               } disabled:opacity-50`}
+              title={
+                playback.repeat_state === "off"
+                  ? "Repeat: Off"
+                  : playback.repeat_state === "context"
+                    ? "Repeat: Context"
+                    : "Repeat: Track"
+              }
             >
-              {playback.repeat_state === "track" ? "🔂" : "🔁"}
+              {playback.repeat_state === "track" ? (
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M17 17h2a2 2 0 002-2V9a2 2 0 00-2-2h-2m-8 8H5a2 2 0 01-2-2V9a2 2 0 012-2h2m5-4v12"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                  />
+                </svg>
+              )}
             </button>
           </div>
         </div>
@@ -259,9 +352,22 @@ export default function NowPlaying() {
           </p>
           <button
             onClick={loadPlayback}
-            className="text-[#9fb2c8] hover:text-[#8fe1b0] transition text-xs"
+            className="text-[#9fb2c8] hover:text-[#8fe1b0] transition p-1"
+            title="Actualizar"
           >
-            🔄
+            <svg
+              className="w-3.5 h-3.5"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+              />
+            </svg>
           </button>
         </div>
 
@@ -274,8 +380,14 @@ export default function NowPlaying() {
                 className="w-full h-full object-cover"
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-2xl">
-                🎵
+              <div className="w-full h-full flex items-center justify-center">
+                <svg
+                  className="w-8 h-8 text-[#9fb2c8]"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
+                </svg>
               </div>
             )}
           </div>
@@ -307,6 +419,7 @@ export default function NowPlaying() {
         </div>
 
         <div className="flex items-center justify-between gap-2">
+          {/* Shuffle */}
           <button
             onClick={handleShuffle}
             disabled={loading}
@@ -317,36 +430,65 @@ export default function NowPlaying() {
             } disabled:opacity-50`}
             title="Shuffle"
           >
-            🔀
+            <svg
+              className="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"
+              />
+              <path d="M3 18h3.5L15 6h3M3 6h3.5L9 9" />
+            </svg>
           </button>
 
+          {/* Previous */}
           <button
             onClick={handlePrevious}
             disabled={loading}
             className="p-2 rounded-lg bg-white/5 text-[#e8f2ff] hover:bg-white/10 active:scale-95 transition disabled:opacity-50"
             title="Anterior"
           >
-            ⏮️
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z" />
+            </svg>
           </button>
 
+          {/* Play/Pause */}
           <button
             onClick={handlePlayPause}
             disabled={loading}
             className="p-3 rounded-full bg-gradient-to-br from-[#2cd37d] to-[#18b663] text-white hover:scale-105 active:scale-95 transition shadow-[0_5px_20px_rgba(24,182,99,0.4)] disabled:opacity-50"
             title={playback.is_playing ? "Pausar" : "Reproducir"}
           >
-            {playback.is_playing ? "⏸️" : "▶️"}
+            {playback.is_playing ? (
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
+              </svg>
+            ) : (
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            )}
           </button>
 
+          {/* Next */}
           <button
             onClick={handleNext}
             disabled={loading}
             className="p-2 rounded-lg bg-white/5 text-[#e8f2ff] hover:bg-white/10 active:scale-95 transition disabled:opacity-50"
             title="Siguiente"
           >
-            ⏭️
+            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
+            </svg>
           </button>
 
+          {/* Repeat */}
           <button
             onClick={handleRepeat}
             disabled={loading}
@@ -363,23 +505,37 @@ export default function NowPlaying() {
                   : "Repeat: Track"
             }
           >
-            {playback.repeat_state === "track" ? "🔂" : "🔁"}
+            {playback.repeat_state === "track" ? (
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M17 17h2a2 2 0 002-2V9a2 2 0 00-2-2h-2m-8 8H5a2 2 0 01-2-2V9a2 2 0 012-2h2m5-4v12"
+                />
+              </svg>
+            ) : (
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                />
+              </svg>
+            )}
           </button>
         </div>
-
-        {playback.device && (
-          <div className="mt-3 pt-3 border-t border-white/10 flex items-center justify-between">
-            <p className="text-[10px] text-[#9fb2c8] flex items-center gap-1 truncate">
-              <span>📱</span>
-              <span className="truncate">{playback.device.name}</span>
-            </p>
-            {playback.device.volume_percent !== null && (
-              <p className="text-[10px] text-[#9fb2c8] ml-2">
-                🔊 {playback.device.volume_percent}%
-              </p>
-            )}
-          </div>
-        )}
       </div>
     </>
   );

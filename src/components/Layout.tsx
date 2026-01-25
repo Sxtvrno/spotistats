@@ -114,7 +114,7 @@ export default function Layout() {
                 : "text-[#c8d6e8] hover:text-[#e8f2ff]"
             }`}
           >
-            📊 Análisis
+            Análisis
           </Link>
         </nav>
       </header>
