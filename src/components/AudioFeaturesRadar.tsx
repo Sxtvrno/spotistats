@@ -106,7 +106,7 @@ export default function AudioFeaturesRadar({
           ))}
 
           {/* Labels */}
-          {axisPoints.map((point, i) => {
+          {axisPoints.map((_, i) => {
             const labelAngle = (Math.PI * 2 * i) / metrics.length - Math.PI / 2;
             const labelRadius = radius + 25;
             const labelX = center + labelRadius * Math.cos(labelAngle);
