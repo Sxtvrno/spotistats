@@ -147,7 +147,6 @@ export default function AudioAnalysis() {
               </p>
               <p className="text-2xl md:text-3xl font-bold text-[#8fe1b0]">
                 {Math.round(stats.artistDiversity)}
-                <span className="text-sm md:text-base text-[#9fb2c8]">%</span>
               </p>
               <p className="text-[9px] md:text-[10px] text-[#9fb2c8] mt-1">
                 Artistas únicos
