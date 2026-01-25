@@ -5,6 +5,7 @@ export const SCOPES = [
   "user-read-private",
   "user-top-read",
   "user-read-recently-played",
+  "playlist-read-private", // ← AGREGAR ESTE
   "playlist-modify-private",
   "playlist-modify-public",
 ];
@@ -53,7 +54,7 @@ export const buildAuthorizeUrl = (
   clientId: string,
   redirectUri: string,
   scopes: string[],
-  challenge: string
+  challenge: string,
 ) => {
   const authUrl = new URL("https://accounts.spotify.com/authorize");
   authUrl.searchParams.set("client_id", clientId);
@@ -70,7 +71,7 @@ export const exchangeCodeForToken = async (
   redirectUri: string,
   code: string,
   verifier: string,
-  fallbackRefreshToken?: string | null
+  fallbackRefreshToken?: string | null,
 ): Promise<StoredAuth> => {
   const body = new URLSearchParams({
     client_id: clientId,
@@ -102,7 +103,7 @@ export const exchangeCodeForToken = async (
 
 export const refreshAccessToken = async (
   clientId: string,
-  tokenToRefresh: string
+  tokenToRefresh: string,
 ): Promise<StoredAuth> => {
   const body = new URLSearchParams({
     client_id: clientId,
@@ -131,7 +132,7 @@ export const refreshAccessToken = async (
 
 export const fetchWithToken = async <T>(
   token: string,
-  endpoint: string
+  endpoint: string,
 ): Promise<T> => {
   const url = endpoint.startsWith("http")
     ? endpoint
@@ -153,7 +154,7 @@ export const fetchWithToken = async <T>(
 
   if (res.status === 403) {
     throw new Error(
-      "Tu cuenta no está autorizada para esta app (modo desarrollo en Spotify). Pide al owner que te agregue en Users and Access."
+      "Tu cuenta no está autorizada para esta app (modo desarrollo en Spotify). Pide al owner que te agregue en Users and Access.",
     );
   }
 
@@ -164,7 +165,7 @@ export const fetchWithToken = async <T>(
 export const requestWithToken = async <T>(
   token: string,
   endpoint: string,
-  init?: RequestInit
+  init?: RequestInit,
 ): Promise<T> => {
   const url = endpoint.startsWith("http")
     ? endpoint
@@ -190,7 +191,7 @@ export const requestWithToken = async <T>(
 
 export const searchFirstTrackUri = async (
   token: string,
-  query: string
+  query: string,
 ): Promise<string | null> => {
   const data = await fetchWithToken<{
     tracks: { items: Array<{ uri: string }> };
@@ -203,7 +204,7 @@ export const createPlaylist = async (
   userId: string,
   name: string,
   description: string,
-  isPublic = false
+  isPublic = false,
 ): Promise<{ id: string; externalUrl: string }> => {
   const playlist = await requestWithToken<{
     id: string;
@@ -218,7 +219,7 @@ export const createPlaylist = async (
 export const addTracksToPlaylist = async (
   token: string,
   playlistId: string,
-  uris: string[]
+  uris: string[],
 ): Promise<void> => {
   await requestWithToken<void>(token, `playlists/${playlistId}/tracks`, {
     method: "POST",

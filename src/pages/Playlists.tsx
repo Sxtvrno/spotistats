@@ -26,7 +26,7 @@ export default function Playlists() {
   const [createMsg, setCreateMsg] = useState<string | null>(null);
   const [createErr, setCreateErr] = useState<string | null>(null);
   const [createdPlaylistUrl, setCreatedPlaylistUrl] = useState<string | null>(
-    null
+    null,
   );
 
   const [userPlaylists, setUserPlaylists] = useState<SpotifyPlaylist[]>([]);
@@ -34,29 +34,33 @@ export default function Playlists() {
   const [playlistsError, setPlaylistsError] = useState<string | null>(null);
 
   const loadUserPlaylists = async () => {
-    if (!accessToken) return;
+    if (!accessToken) {
+      console.warn("No accessToken available");
+      return;
+    }
     setLoadingPlaylists(true);
     setPlaylistsError(null);
     try {
       const data = await fetchWithToken<{ items: SpotifyPlaylist[] }>(
         accessToken,
-        "me/playlists?limit=50"
+        "me/playlists?limit=50",
       );
+      console.log("Playlists loaded:", data.items?.length);
       setUserPlaylists(data.items || []);
     } catch (err) {
-      setPlaylistsError((err as Error).message);
       console.error("Error loading playlists:", err);
+      setPlaylistsError((err as Error).message);
     } finally {
       setLoadingPlaylists(false);
     }
   };
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && accessToken) {
       loadUserPlaylists();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated]);
+  }, [isAuthenticated, accessToken]);
 
   const handleGenerateAndSavePlaylist = async () => {
     setCreateErr(null);
@@ -84,7 +88,7 @@ export default function Playlists() {
 
       if (uris.length < 20) {
         throw new Error(
-          `Se necesitan al menos 20 canciones; se encontraron ${uris.length}. Prueba con un prompt más específico.`
+          `Se necesitan al menos 20 canciones; se encontraron ${uris.length}. Prueba con un prompt más específico.`,
         );
       }
 
@@ -94,7 +98,7 @@ export default function Playlists() {
         profile.id,
         plan.name,
         plan.description ?? "",
-        false
+        false,
       );
 
       setCreateMsg("Agregando canciones…");
