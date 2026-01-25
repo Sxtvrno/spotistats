@@ -1,5 +1,6 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import NowPlaying from "./NowPlaying";
 
 export default function Layout() {
   const location = useLocation();
@@ -103,12 +104,25 @@ export default function Layout() {
           >
             Playlists
           </Link>
+          <Link
+            to="/audio-features"
+            className={`px-4 py-2 rounded-t-xl transition ${
+              isActive("/audio-features")
+                ? "bg-white/10 text-[#8fe1b0] font-bold"
+                : "text-[#c8d6e8] hover:text-[#e8f2ff]"
+            }`}
+          >
+            🎵 Audio
+          </Link>
         </nav>
       </header>
 
       <main>
         <Outlet />
       </main>
+
+      {/* Now Playing Widget */}
+      <NowPlaying />
     </div>
   );
 }

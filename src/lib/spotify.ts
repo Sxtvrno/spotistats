@@ -1,13 +1,20 @@
-import type { StoredAuth } from "../types/spotify";
+import type {
+  StoredAuth,
+  PlaybackState,
+  AudioFeatures,
+} from "../types/spotify";
 
 export const SCOPES = [
   "user-read-email",
   "user-read-private",
   "user-top-read",
   "user-read-recently-played",
-  "playlist-read-private", // ← AGREGAR ESTE
+  "playlist-read-private",
   "playlist-modify-private",
   "playlist-modify-public",
+  "user-read-playback-state",
+  "user-modify-playback-state",
+  "user-read-currently-playing",
 ];
 
 export const STORAGE_KEY = "spotistats.auth";
@@ -225,4 +232,87 @@ export const addTracksToPlaylist = async (
     method: "POST",
     body: JSON.stringify({ uris }),
   });
+};
+
+// Playback Control Functions
+export const getCurrentPlayback = async (
+  token: string,
+): Promise<PlaybackState | null> => {
+  try {
+    const data = await fetchWithToken<PlaybackState>(token, "me/player");
+    return data;
+  } catch (err) {
+    // Si no hay dispositivo activo, Spotify devuelve 204
+    return null;
+  }
+};
+
+export const pausePlayback = async (token: string): Promise<void> => {
+  await requestWithToken<void>(token, "me/player/pause", { method: "PUT" });
+};
+
+export const resumePlayback = async (token: string): Promise<void> => {
+  await requestWithToken<void>(token, "me/player/play", { method: "PUT" });
+};
+
+export const skipToNext = async (token: string): Promise<void> => {
+  await requestWithToken<void>(token, "me/player/next", { method: "POST" });
+};
+
+export const skipToPrevious = async (token: string): Promise<void> => {
+  await requestWithToken<void>(token, "me/player/previous", { method: "POST" });
+};
+
+export const toggleShuffle = async (
+  token: string,
+  state: boolean,
+): Promise<void> => {
+  await requestWithToken<void>(token, `me/player/shuffle?state=${state}`, {
+    method: "PUT",
+  });
+};
+
+export const setRepeatMode = async (
+  token: string,
+  state: "off" | "track" | "context",
+): Promise<void> => {
+  await requestWithToken<void>(token, `me/player/repeat?state=${state}`, {
+    method: "PUT",
+  });
+};
+
+// Audio Features Functions
+export const getAudioFeatures = async (
+  token: string,
+  trackId: string,
+): Promise<AudioFeatures | null> => {
+  try {
+    const data = await fetchWithToken<AudioFeatures>(
+      token,
+      `audio-features/${trackId}`,
+    );
+    return data;
+  } catch (err) {
+    console.error("Error fetching audio features:", err);
+    return null;
+  }
+};
+
+export const getMultipleAudioFeatures = async (
+  token: string,
+  trackIds: string[],
+): Promise<AudioFeatures[]> => {
+  if (trackIds.length === 0) return [];
+  // API permite hasta 100 IDs por request
+  const ids = trackIds.slice(0, 100).join(",");
+  try {
+    const data = await fetchWithToken<{ audio_features: AudioFeatures[] }>(
+      token,
+      `audio-features?ids=${ids}`,
+    );
+    return data.audio_features.filter((f) => f !== null);
+  } catch (err) {
+    console.error("Error fetching multiple audio features:", err);
+    return [];
+  }
 };

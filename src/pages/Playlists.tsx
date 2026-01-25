@@ -273,18 +273,18 @@ export default function Playlists() {
         )}
 
         {!loadingPlaylists && userPlaylists.length > 0 && (
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-3 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {userPlaylists.map((playlist) => (
               <a
                 key={playlist.id}
                 href={playlist.external_urls.spotify}
                 target="_blank"
                 rel="noreferrer"
-                className="bg-white/5 border border-white/10 rounded-xl p-4 hover:bg-white/10 hover:border-[#8fe1b0]/40 transition group overflow-hidden"
+                className="bg-white/5 border border-white/10 rounded-lg p-3 hover:bg-white/10 hover:border-[#8fe1b0]/40 transition group overflow-hidden"
               >
                 <div className="flex flex-col h-full">
                   {/* Cover */}
-                  <div className="mb-3 rounded-lg overflow-hidden bg-white/5 border border-white/10 aspect-square flex items-center justify-center">
+                  <div className="mb-2 rounded-md overflow-hidden bg-white/5 border border-white/10 aspect-square flex items-center justify-center">
                     {playlist.images[0]?.url ? (
                       <img
                         src={playlist.images[0].url}
@@ -292,41 +292,33 @@ export default function Playlists() {
                         className="w-full h-full object-cover group-hover:scale-105 transition"
                       />
                     ) : (
-                      <div className="text-5xl">🎵</div>
+                      <div className="text-3xl">🎵</div>
                     )}
                   </div>
 
                   {/* Info */}
                   <div className="flex-1 flex flex-col justify-between">
                     <div>
-                      <p className="font-bold text-[15px] leading-tight mb-2 line-clamp-2 group-hover:text-[#8fe1b0] transition">
+                      <p className="font-bold text-[13px] leading-tight mb-1 line-clamp-2 group-hover:text-[#8fe1b0] transition">
                         {playlist.name}
                       </p>
-                      {playlist.description && (
-                        <p className="text-[12px] text-[#9fb2c8] line-clamp-2 mb-2">
-                          {playlist.description}
-                        </p>
-                      )}
                     </div>
 
-                    <div className="space-y-1 border-t border-white/10 pt-3">
-                      <div className="flex items-center justify-between text-[11px]">
+                    <div className="space-y-1 border-t border-white/10 pt-2 mt-2">
+                      <div className="flex items-center justify-between text-[10px]">
                         <span className="text-[#9fb2c8]">
-                          🎵 {playlist.tracks.total} canciones
+                          {playlist.tracks.total} canciones
                         </span>
                         <span
-                          className={`px-2 py-1 rounded-full text-[10px] font-bold ${
+                          className={`px-1.5 py-0.5 rounded-full text-[9px] font-bold ${
                             playlist.public
                               ? "bg-[#8fe1b0]/20 text-[#8fe1b0]"
                               : "bg-white/10 text-[#9fb2c8]"
                           }`}
                         >
-                          {playlist.public ? "🌐 Pública" : "🔒 Privada"}
+                          {playlist.public ? "🌐" : "🔒"}
                         </span>
                       </div>
-                      <p className="text-[11px] text-[#9fb2c8]">
-                        Por {playlist.owner.display_name}
-                      </p>
                     </div>
                   </div>
                 </div>

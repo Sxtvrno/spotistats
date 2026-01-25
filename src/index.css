@@ -2,7 +2,11 @@
 @import "tailwindcss";
 
 :root {
-  font-family: "Space Grotesk", "JetBrains Mono", system-ui, -apple-system,
+  font-family:
+    "Space Grotesk",
+    "JetBrains Mono",
+    system-ui,
+    -apple-system,
     sans-serif;
   line-height: 1.6;
   font-weight: 500;
@@ -21,12 +25,17 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background: radial-gradient(
+  background:
+    radial-gradient(
       circle at 20% 20%,
       rgba(60, 214, 144, 0.12),
       transparent 35%
     ),
-    radial-gradient(circle at 80% 0%, rgba(90, 154, 255, 0.14), transparent 30%),
+    radial-gradient(
+      circle at 80% 0%,
+      rgba(90, 154, 255, 0.14),
+      transparent 30%
+    ),
     radial-gradient(
       circle at 60% 60%,
       rgba(255, 255, 255, 0.06),
@@ -78,4 +87,23 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+/* Custom scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(143, 225, 176, 0.3);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(143, 225, 176, 0.5);
 }
