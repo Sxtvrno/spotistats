@@ -16,24 +16,45 @@ export default function AudioFeaturesPage() {
   const [averageFeatures, setAverageFeatures] = useState<AudioFeatures | null>(
     null,
   );
+  const [featuresCache, setFeaturesCache] = useState<
+    Map<string, AudioFeatures>
+  >(new Map());
   const [viewMode, setViewMode] = useState<"radar" | "bars">("radar");
 
   const loadTopTracksWithFeatures = async () => {
-    if (!accessToken) return;
+    if (!accessToken) {
+      console.log("AudioFeatures: No accessToken");
+      return;
+    }
     setLoading(true);
     setError(null);
     try {
+      console.log("AudioFeatures: Fetching top tracks...");
       const { items } = await fetchWithToken<{ items: SpotifyTrack[] }>(
         accessToken,
         "me/top/tracks?limit=20&time_range=short_term",
       );
+      console.log("AudioFeatures: Tracks loaded:", items.length);
       setTopTracks(items);
 
       // Obtener features de todos los tracks
       const trackIds = items.map((t) => t.id);
+      console.log(
+        "AudioFeatures: Fetching features for",
+        trackIds.length,
+        "tracks",
+      );
       const features = await getMultipleAudioFeatures(accessToken, trackIds);
+      console.log("AudioFeatures: Features loaded:", features.length);
 
       if (features.length > 0) {
+        // Guardar en cache
+        const cache = new Map<string, AudioFeatures>();
+        features.forEach((f) => {
+          cache.set(f.id, f);
+        });
+        setFeaturesCache(cache);
+
         // Calcular promedio de features
         const avg: AudioFeatures = {
           id: "average",
@@ -79,13 +100,17 @@ export default function AudioFeaturesPage() {
 
         // Seleccionar el primer track por defecto
         if (items[0] && features[0]) {
+          console.log("AudioFeatures: Setting first track as selected");
           setSelectedTrack(items[0]);
           setSelectedFeatures(features[0]);
         }
+      } else {
+        console.warn("AudioFeatures: No features returned");
       }
     } catch (err) {
-      setError((err as Error).message);
-      console.error("Error loading audio features:", err);
+      const errMsg = (err as Error).message;
+      console.error("AudioFeatures: Error loading:", errMsg);
+      setError(errMsg);
     } finally {
       setLoading(false);
     }
@@ -98,14 +123,32 @@ export default function AudioFeaturesPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated, accessToken]);
 
-  const handleSelectTrack = async (track: SpotifyTrack) => {
-    if (!accessToken) return;
+  const handleSelectTrack = (track: SpotifyTrack) => {
+    console.log("AudioFeatures: Track selected:", track.name);
     setSelectedTrack(track);
+
+    // Buscar en cache primero
+    const cached = featuresCache.get(track.id);
+    if (cached) {
+      console.log("AudioFeatures: Using cached features");
+      setSelectedFeatures(cached);
+    } else {
+      console.log("AudioFeatures: No cached features, fetching...");
+      // Si no está en cache, cargar
+      loadTrackFeatures(track);
+    }
+  };
+
+  const loadTrackFeatures = async (track: SpotifyTrack) => {
+    if (!accessToken) return;
     setLoading(true);
     try {
       const features = await getMultipleAudioFeatures(accessToken, [track.id]);
+      console.log("AudioFeatures: Individual track features loaded:", features);
       if (features[0]) {
         setSelectedFeatures(features[0]);
+        // Agregar al cache
+        setFeaturesCache((prev) => new Map(prev).set(track.id, features[0]));
       }
     } catch (err) {
       console.error("Error loading track features:", err);
@@ -167,6 +210,15 @@ export default function AudioFeaturesPage() {
       <div className="grid gap-6 lg:grid-cols-2">
         {/* Visualización */}
         <div>
+          {!selectedFeatures && !loading && (
+            <div className="bg-[rgba(10,18,30,0.75)] border border-white/10 rounded-2xl p-12 text-center backdrop-blur-sm">
+              <div className="text-4xl mb-3">🎵</div>
+              <p className="text-[#9fb2c8]">
+                Selecciona una canción para ver su análisis
+              </p>
+            </div>
+          )}
+
           {selectedFeatures && viewMode === "radar" && (
             <AudioFeaturesRadar
               features={selectedFeatures}

@@ -4,7 +4,7 @@ import Layout from "./components/Layout";
 import Dashboard from "./pages/Dashboard";
 import Stats from "./pages/Stats";
 import Playlists from "./pages/Playlists";
-import AudioFeatures from "./pages/AudioFeatures";
+import AudioAnalysis from "./pages/AudioAnalysis";
 
 function App() {
   return (
@@ -15,7 +15,7 @@ function App() {
             <Route index element={<Dashboard />} />
             <Route path="stats" element={<Stats />} />
             <Route path="playlists" element={<Playlists />} />
-            <Route path="audio-features" element={<AudioFeatures />} />
+            <Route path="audio-analysis" element={<AudioAnalysis />} />
           </Route>
         </Routes>
       </AuthProvider>
