@@ -419,33 +419,6 @@ export default function NowPlaying() {
         </div>
 
         <div className="flex items-center justify-between gap-2">
-          {/* Shuffle */}
-          <button
-            onClick={handleShuffle}
-            disabled={loading}
-            className={`p-2 rounded-lg transition ${
-              playback.shuffle_state
-                ? "bg-[#8fe1b0]/20 text-[#8fe1b0]"
-                : "bg-white/5 text-[#9fb2c8] hover:bg-white/10"
-            } disabled:opacity-50`}
-            title="Shuffle"
-          >
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z"
-              />
-              <path d="M3 18h3.5L15 6h3M3 6h3.5L9 9" />
-            </svg>
-          </button>
-
           {/* Previous */}
           <button
             onClick={handlePrevious}
@@ -486,54 +459,6 @@ export default function NowPlaying() {
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
               <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
             </svg>
-          </button>
-
-          {/* Repeat */}
-          <button
-            onClick={handleRepeat}
-            disabled={loading}
-            className={`p-2 rounded-lg transition ${
-              playback.repeat_state !== "off"
-                ? "bg-[#8fe1b0]/20 text-[#8fe1b0]"
-                : "bg-white/5 text-[#9fb2c8] hover:bg-white/10"
-            } disabled:opacity-50`}
-            title={
-              playback.repeat_state === "off"
-                ? "Repeat: Off"
-                : playback.repeat_state === "context"
-                  ? "Repeat: Context"
-                  : "Repeat: Track"
-            }
-          >
-            {playback.repeat_state === "track" ? (
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M17 17h2a2 2 0 002-2V9a2 2 0 00-2-2h-2m-8 8H5a2 2 0 01-2-2V9a2 2 0 012-2h2m5-4v12"
-                />
-              </svg>
-            ) : (
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                />
-              </svg>
-            )}
           </button>
         </div>
       </div>

@@ -117,15 +117,6 @@ export default function AudioAnalysis() {
           {error}
         </div>
       )}
-
-      {/* Nota sobre Audio Features */}
-      <div className="bg-amber-400/10 border border-amber-400/30 rounded-xl p-3 md:p-4">
-        <p className="text-amber-200 font-bold text-xs md:text-sm mb-2 flex items-center gap-2">
-          <span className="text-base md:text-lg">⚠️</span> Funcionalidad
-          limitada
-        </p>
-      </div>
-
       {loading && !stats ? (
         <div className="text-center py-12">
           <div className="animate-spin text-4xl mb-3">🎵</div>
